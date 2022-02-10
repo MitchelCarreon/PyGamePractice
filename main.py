@@ -3,8 +3,10 @@ import os
 
 import pygame.font
 
+
 pygame.font.init()  # fonts
 pygame.mixer.init()  # for sounds
+
 
 WIDTH, HEIGHT = 900, 500
 WIN = pygame.display.set_mode((WIDTH, HEIGHT,))
@@ -54,6 +56,7 @@ RED_SPACESHIP = pygame.transform.rotate(
 SPACE_BG = pygame.transform.scale(pygame.image.load(os.path.join('Assets', 'space.png')), (WIDTH, HEIGHT))
 
 
+# TODO: Move rendering to separate package
 def draw_window(red, yellow, red_bullets, yellow_bullets, red_health, yellow_health):
     # try deleting this and see what happens. images drawn in the Surface are still there! 1:15:13 --> https://www.youtube.com/watch?v=jO6qQDNa2UY
     WIN.blit(SPACE_BG, (0, 0))  # WIN.fill(WHITE)
