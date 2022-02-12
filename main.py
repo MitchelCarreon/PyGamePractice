@@ -8,8 +8,16 @@ pygame.font.init()  # initialize fonts functionality
 pygame.display.set_caption("Window Title")
 
 
-def main():
+def handle_ship_and_bullet_movement(p1_ship, p2_ship, window):
+    keys_pressed = pygame.key.get_pressed()
+    p1_ship.handle_movement(keys_pressed, window.border)
+    p2_ship.handle_movement(keys_pressed, window.border)
 
+    p1_ship.handle_bullets(p2_ship)
+    p2_ship.handle_bullets(p1_ship)
+
+
+def main():
     p1_ship = Spaceship()
     p2_ship = Spaceship(p1=False)
     window = Display()
@@ -20,6 +28,7 @@ def main():
         clock.tick(window.fps)  # constraint to FPS
 
         handle_events(p1_ship, p2_ship)
+
         winner_text = ""
         if p2_ship.health <= 0:
             winner_text = "Yellow wins!"
@@ -29,22 +38,11 @@ def main():
 
         if winner_text != "":
             window.draw_winner(winner_text)
-            break  # breaks out of the nearest containing loop
+            break
 
-        keys_pressed = pygame.key.get_pressed()
+        handle_ship_and_bullet_movement(p1_ship, p2_ship, window)
+        window.draw_window(p1_ship, p2_ship)
 
-        p1_ship.handle_movement(keys_pressed, window.border)
-        p2_ship.handle_movement(keys_pressed, window.border)
-
-        p1_ship.handle_bullets(p2_ship)
-        p2_ship.handle_bullets(p1_ship)
-
-
-        window.draw_window(p2_ship.rect, p1_ship.rect, p2_ship.bullets, p1_ship.bullets,
-                           p2_ship.health, p1_ship.health, p1_ship.image, p2_ship.image)
-        # draw_window(red, yellow, red_bullets, yellow_bullets, red_health, yellow_health)
-
-    # pygame.quit()
     main()
 
 
